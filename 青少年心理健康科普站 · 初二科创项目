@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>未成年人心理健康辅导网站</title>
+<meta name="description" content="面向青少年的心理健康科普网站：认识情绪、减压工具箱、心情签到、AI心理伙伴，陪你度过每一个晴天和雨天。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>">
+<style>
+/* ============ 基础变量与重置 ============ */
+:root{
+  --primary:#6366f1;
+  --primary-2:#8b5cf6;
+  --accent:#06b6d4;
+  --pink:#f472b6;
+  --bg:#f6f7ff;
+  --text:#334155;
+  --muted:#64748b;
+  --card:#ffffff;
+  --radius:22px;
+  --shadow:0 10px 40px rgba(99,102,241,.12);
+  --shadow-hover:0 18px 50px rgba(99,102,241,.22);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+  background:var(--bg);color:var(--text);
+  line-height:1.75;overflow-x:hidden;font-size:17px;
+}
+::selection{background:rgba(139,92,246,.25)}
+
+/* ============ 背景灵动装饰 ============ */
+.bg-decor{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.45;animation:blobMove 20s ease-in-out infinite alternate}
+.blob-1{width:520px;height:520px;background:#c7d2fe;top:-140px;left:-120px}
+.blob-2{width:460px;height:460px;background:#ddd6fe;top:30%;right:-160px;animation-delay:-6s}
+.blob-3{width:420px;height:420px;background:#a5f3fc;bottom:-140px;left:22%;animation-delay:-12s}
+@keyframes blobMove{
+  0%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(60px,-40px) scale(1.12)}
+  100%{transform:translate(-40px,50px) scale(.95)}
+}
+.float-emoji{position:absolute;font-size:30px;opacity:.32;animation:floaty 7s ease-in-out infinite}
+@keyframes floaty{
+  0%,100%{transform:translateY(0) rotate(-4deg)}
+  50%{transform:translateY(-26px) rotate(5deg)}
+}
+
+/* ============ 导航栏 ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 5vw;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(14px);
+  box-shadow:0 4px 24px rgba(99,102,241,.08);
+}
+.logo{font-size:1.35rem;font-weight:800;display:flex;align-items:center;gap:8px;
+  background:linear-gradient(90deg,var(--primary),var(--pink));
+  -webkit-background-clip:text;background-clip:text;color:transparent;cursor:pointer}
+.nav-links{display:flex;gap:22px;flex-wrap:wrap}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.95rem;font-weight:600;transition:.25s;position:relative}
+.nav-links a:hover{color:var(--primary);transform:translateY(-2px)}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:2.5px;border-radius:2px;
+  background:linear-gradient(90deg,var(--primary),var(--pink));transition:.3s}
+.nav-links a:hover::after{width:100%}
+#navToggle{display:none;background:none;border:none;font-size:1.6rem;cursor:pointer;color:var(--primary)}
+
+/* ============ Hero 主视觉 ============ */
+header{
+  min-height:94vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:120px 24px 60px;position:relative;
+}
+.hero-badge{
+  display:inline-block;padding:8px 22px;border-radius:999px;
+  background:rgba(255,255,255,.8);box-shadow:var(--shadow);
+  color:var(--primary);font-weight:700;font-size:1rem;margin-bottom:26px;
+  animation:floaty 5s ease-in-out infinite;
+}
+.hero-title{
+  font-size:clamp(2.6rem,6.5vw,4.6rem);font-weight:900;line-height:1.25;letter-spacing:2px;
+}
+.hero-title .grad{
+  background:linear-gradient(90deg,#6366f1,#8b5cf6,#ec4899,#06b6d4,#6366f1);
+  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:gradShift 8s linear infinite;
+}
+@keyframes gradShift{to{background-position:300% 0}}
+.hero-sub{max-width:720px;margin:26px auto 40px;color:var(--muted);font-size:clamp(1.05rem,2vw,1.25rem)}
+.hero-btns{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.btn{
+  padding:15px 36px;border-radius:999px;border:none;cursor:pointer;
+  font-size:1.05rem;font-weight:700;text-decoration:none;transition:.3s;
+}
+.btn-primary{background:linear-gradient(90deg,var(--primary),var(--primary-2));color:#fff;box-shadow:0 10px 26px rgba(99,102,241,.35)}
+.btn-primary:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 34px rgba(99,102,241,.45)}
+.btn-ghost{background:rgba(255,255,255,.85);color:var(--primary);box-shadow:var(--shadow)}
+.btn-ghost:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.hero-cards{display:flex;gap:18px;margin-top:56px;flex-wrap:wrap;justify-content:center}
+.hero-chip{
+  background:rgba(255,255,255,.85);border-radius:18px;padding:14px 24px;box-shadow:var(--shadow);
+  font-weight:600;font-size:.98rem;display:flex;align-items:center;gap:10px;transition:.3s;
+}
+.hero-chip:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:var(--shadow-hover)}
+.scroll-hint{margin-top:60px;color:var(--muted);font-size:1.6rem;animation:floaty 2.2s ease-in-out infinite}
+
+/* ============ 通用区块 ============ */
+section{max-width:1200px;margin:0 auto;padding:96px 24px;scroll-margin-top:90px}
+.section-tag{
+  display:inline-block;padding:6px 18px;border-radius:999px;font-weight:700;font-size:.9rem;
+  background:linear-gradient(90deg,rgba(99,102,241,.12),rgba(236,72,153,.12));color:var(--primary);
+  margin-bottom:14px;
+}
+h2{font-size:clamp(1.9rem,4vw,2.7rem);font-weight:900;margin-bottom:12px;letter-spacing:1px}
+.section-desc{color:var(--muted);font-size:1.08rem;max-width:820px;margin-bottom:44px}
+.h2-bar{width:76px;height:6px;border-radius:6px;margin:6px 0 18px;
+  background:linear-gradient(90deg,var(--primary),var(--pink))}
+
+/* 卡片网格 */
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.card{
+  background:var(--card);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);
+  transition:.35s;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;inset:0;border-radius:var(--radius);
+  background:linear-gradient(120deg,rgba(99,102,241,.08),rgba(236,72,153,.06));
+  opacity:0;transition:.35s;pointer-events:none;
+}
+.card:hover{transform:translateY(-8px);box-shadow:var(--shadow-hover)}
+.card:hover::before{opacity:1}
+.card .icon{font-size:2.4rem;margin-bottom:14px;display:inline-block;transition:.3s}
+.card:hover .icon{transform:scale(1.25) rotate(-6deg)}
+.card h3{font-size:1.22rem;margin-bottom:10px;font-weight:800}
+.card p{color:var(--muted);font-size:.98rem}
+
+/* 滚动显现动画 */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.12s}
+.reveal-delay-2{transition-delay:.24s}
+.reveal-delay-3{transition-delay:.36s}
+
+/* ============ 认识心理健康 ============ */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:44px}
+.stat-card{text-align:center;padding:34px 16px}
+.stat-num{
+  font-size:clamp(2rem,4vw,3rem);font-weight:900;
+  background:linear-gradient(90deg,var(--primary),var(--pink));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.stat-label{color:var(--muted);font-size:.95rem;margin-top:6px}
+.brain-box{
+  margin-top:44px;background:linear-gradient(120deg,#eef2ff,#fdf2f8);
+  border-radius:var(--radius);padding:36px 40px;display:flex;gap:28px;align-items:flex-start;
+  box-shadow:var(--shadow);
+}
+.brain-box .icon{font-size:3rem;animation:floaty 4s ease-in-out infinite}
+.brain-box h3{margin-bottom:8px}
+.brain-box p{color:#475569}
+
+/* ============ 常见困扰（手风琴） ============ */
+.accordion{display:flex;flex-direction:column;gap:16px}
+.acc-item{
+  background:var(--card);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;transition:.3s;
+}
+.acc-item.open{box-shadow:var(--shadow-hover)}
+.acc-head{
+  padding:20px 26px;display:flex;align-items:center;gap:14px;cursor:pointer;
+  font-weight:800;font-size:1.1rem;user-select:none;
+}
+.acc-head:hover{color:var(--primary)}
+.acc-head .emoji{font-size:1.6rem}
+.acc-head .arrow{margin-left:auto;transition:.35s;color:var(--primary);font-size:1.1rem}
+.acc-item.open .arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .45s ease;padding:0 26px}
+.acc-item.open .acc-body{max-height:640px;padding-bottom:24px}
+.acc-body p{color:var(--muted);font-size:.98rem;margin-bottom:8px}
+.acc-body b{color:var(--primary)}
+
+/* ============ 情绪信号灯 ============ */
+.signal{padding:34px}
+.signal h3{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.light{width:20px;height:20px;border-radius:50%;flex-shrink:0;animation:pulse 2s ease-in-out infinite}
+.light-green{background:#22c55e;box-shadow:0 0 0 6px rgba(34,197,94,.18)}
+.light-yellow{background:#f59e0b;box-shadow:0 0 0 6px rgba(245,158,11,.18)}
+.light-red{background:#ef4444;box-shadow:0 0 0 6px rgba(239,68,68,.18)}
+@keyframes pulse{50%{transform:scale(1.18)}}
+.signal ul{padding-left:20px;color:var(--muted);font-size:.98rem}
+.signal li{margin-bottom:6px}
+.signal-tips{margin-top:16px;padding:12px 16px;border-radius:14px;font-size:.94rem;background:rgba(99,102,241,.08);color:var(--primary);font-weight:600}
+.signal-red{border-top:5px solid #ef4444}
+.signal-yellow{border-top:5px solid #f59e0b}
+.signal-green{border-top:5px solid #22c55e}
+
+/* ============ 心情签到 ============ */
+.mood-panel{
+  background:linear-gradient(120deg,#eef2ff,#fce7f3 55%,#cffafe);
+  border-radius:var(--radius);padding:44px;box-shadow:var(--shadow);text-align:center;
+}
+.mood-panel h3{font-size:1.5rem;margin-bottom:8px}
+.mood-panel .sub{color:var(--muted);margin-bottom:28px}
+.mood-btns{display:flex;justify-content:center;gap:22px;flex-wrap:wrap}
+.mood-btn{
+  width:86px;height:86px;border-radius:26px;border:none;cursor:pointer;font-size:2.5rem;
+  background:rgba(255,255,255,.9);box-shadow:var(--shadow);transition:.3s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+}
+.mood-btn small{font-size:.78rem;color:var(--muted);font-weight:700}
+.mood-btn:hover{transform:translateY(-8px) scale(1.08);box-shadow:var(--shadow-hover)}
+.mood-btn.active{outline:4px solid var(--primary);transform:scale(1.08)}
+.mood-btn.pop{animation:pop .4s ease}
+@keyframes pop{40%{transform:scale(1.35)}}
+#moodMsg{margin-top:26px;font-weight:700;color:var(--primary);min-height:30px;font-size:1.05rem}
+.mood-week{display:flex;justify-content:center;gap:14px;margin-top:26px;flex-wrap:wrap}
+.mood-cell{
+  background:rgba(255,255,255,.85);border-radius:14px;padding:10px 14px;min-width:64px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;font-size:1.3rem;
+}
+.mood-cell .mood-day{font-size:.75rem;color:var(--muted)}
+.mood-cell.today{outline:2px solid var(--pink)}
+
+/* ============ 减压工具箱 ============ */
+.toolbox-tip{margin-top:30px;padding:18px 24px;border-radius:18px;background:#fff;box-shadow:var(--shadow);
+  color:var(--muted);font-size:.98rem}
+.breath-wrap{
+  margin-top:44px;background:linear-gradient(135deg,#312e81,#6d28d9,#9d174d);
+  border-radius:var(--radius);padding:50px 30px;color:#fff;text-align:center;
+  box-shadow:0 20px 60px rgba(49,46,129,.4);
+}
+.breath-wrap h3{font-size:1.6rem;margin-bottom:6px}
+.breath-wrap .sub{opacity:.85;margin-bottom:34px}
+.breath-stage{display:flex;flex-direction:column;align-items:center;gap:26px}
+.breath-circle{
+  width:190px;height:190px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#a5b4fc,#818cf8 60%,#6366f1);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 0 60px rgba(165,180,252,.6);transition:transform .5s ease;
+}
+.breath-circle.grow{transform:scale(1.42);transition:transform 4s ease}
+.breath-circle.hold{transform:scale(1.42)}
+.breath-circle.shrink{transform:scale(1);transition:transform 8s ease}
+#breathNum{font-size:2.4rem;font-weight:900;line-height:1}
+#breathLabel{font-size:1rem;font-weight:700;opacity:.95;margin-top:4px}
+.breath-btns{display:flex;gap:16px}
+.breath-btn{
+  padding:13px 32px;border-radius:999px;border:2px solid rgba(255,255,255,.6);
+  background:rgba(255,255,255,.12);color:#fff;font-weight:700;font-size:1rem;cursor:pointer;transition:.3s;
+}
+.breath-btn:hover{background:rgba(255,255,255,.25);transform:translateY(-3px)}
+.breath-round{opacity:.85;font-size:.95rem}
+
+/* ============ 误区 vs 真相（翻转卡） ============ */
+.flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.flip-card{height:230px;cursor:pointer;perspective:1200px;background:none;box-shadow:none;padding:0;border-radius:var(--radius)}
+.flip-card::before{content:none}
+.flip-card:hover{transform:none;box-shadow:none}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-face{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);
+  padding:26px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  box-shadow:var(--shadow);
+}
+.flip-front{background:linear-gradient(135deg,#fff,#eef2ff)}
+.flip-front .myth{color:#ef4444;font-weight:800;font-size:.85rem;letter-spacing:2px;margin-bottom:10px}
+.flip-front h3{font-size:1.15rem}
+.flip-front .tap{margin-top:16px;font-size:.85rem;color:var(--muted);animation:floaty 2.5s ease-in-out infinite}
+.flip-back{background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;transform:rotateY(180deg)}
+.flip-back .fact{font-weight:800;font-size:.85rem;letter-spacing:2px;margin-bottom:10px;color:#fbcfe8}
+.flip-back p{font-size:.95rem;line-height:1.7;color:#f1f5f9}
+
+/* ============ 情绪自测 ============ */
+.quiz-box{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px}
+.quiz-item{padding:20px 0;border-bottom:1px dashed #e2e8f0}
+.quiz-q{font-weight:700;margin-bottom:14px}
+.quiz-opts{display:flex;gap:12px;flex-wrap:wrap}
+.quiz-opt{
+  padding:9px 22px;border-radius:999px;border:2px solid #e2e8f0;background:#fff;
+  cursor:pointer;font-weight:600;color:var(--muted);transition:.25s;font-size:.93rem;
+}
+.quiz-opt:hover{border-color:var(--primary);color:var(--primary)}
+.quiz-opt.sel{background:linear-gradient(90deg,var(--primary),var(--primary-2));color:#fff;border-color:transparent}
+.quiz-actions{margin-top:26px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.quiz-note{color:#94a3b8;font-size:.88rem}
+#quizResult{margin-top:26px;border-radius:18px;padding:26px 30px;display:none;animation:fadeIn .5s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+#quizResult h3{margin-bottom:8px;font-size:1.3rem}
+#quizResult p{color:#475569}
+
+/* ============ 帮助朋友 ============ */
+.do-dont{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.do-list,.dont-list{padding:32px}
+.do-list{border-top:5px solid #22c55e}
+.dont-list{border-top:5px solid #ef4444}
+.do-list h3,.dont-list h3{margin-bottom:16px;font-size:1.25rem}
+.do-list ul,.dont-list ul{padding-left:22px;color:var(--muted)}
+.do-list li,.dont-list li{margin-bottom:10px}
+.friend-quote{
+  margin-top:30px;text-align:center;padding:26px;border-radius:18px;font-size:1.15rem;font-weight:700;
+  background:linear-gradient(90deg,rgba(99,102,241,.1),rgba(236,72,153,.1));color:var(--primary);
+}
+
+/* ============ 求助资源 ============ */
+.hotline{
+  display:flex;align-items:center;gap:20px;padding:28px 30px;
+}
+.hotline .num{
+  font-size:1.9rem;font-weight:900;
+  background:linear-gradient(90deg,var(--primary),var(--pink));
+  -webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap;
+}
+.hotline .desc{color:var(--muted);font-size:.95rem}
+.help-extra{margin-top:30px;padding:24px 30px;border-radius:18px;background:#fff;box-shadow:var(--shadow);color:var(--muted)}
+.help-extra b{color:var(--primary)}
+
+/* ============ AI 聊天区 ============ */
+.ai-wrap{
+  background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
+}
+.ai-head{
+  padding:22px 30px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:linear-gradient(90deg,#eef2ff,#fdf2f8);
+}
+.ai-head .avatar-big{font-size:2.2rem;animation:floaty 3.5s ease-in-out infinite}
+.ai-head h3{font-size:1.25rem}
+.ai-head .st{font-size:.85rem;color:var(--muted)}
+.ai-head-btns{margin-left:auto;display:flex;gap:10px}
+.ai-btn{
+  padding:9px 20px;border-radius:999px;border:2px solid rgba(99,102,241,.3);background:#fff;
+  color:var(--primary);font-weight:700;cursor:pointer;transition:.25s;font-size:.9rem;
+}
+.ai-btn:hover{background:var(--primary);color:#fff;transform:translateY(-2px)}
+/* 设置面板 */
+.ai-config{
+  display:none;padding:26px 30px;background:#f8fafc;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;
+}
+.ai-config.open{display:block;animation:fadeIn .35s ease}
+.ai-config h4{margin-bottom:6px;font-size:1.02rem}
+.ai-config .hint{font-size:.88rem;color:var(--muted);margin-bottom:16px;line-height:1.8}
+.ai-config .hint b{color:var(--primary)}
+.cfg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cfg-field label{font-size:.85rem;font-weight:700;color:var(--muted);display:block;margin-bottom:6px}
+.cfg-field input{
+  width:100%;padding:11px 14px;border-radius:12px;border:2px solid #e2e8f0;font-size:.93rem;
+  outline:none;transition:.25s;font-family:inherit;
+}
+.cfg-field input:focus{border-color:var(--primary)}
+.cfg-actions{margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+#cfgStatus{font-size:.9rem;color:#22c55e;font-weight:700}
+/* 聊天窗口 */
+#chatBox{
+  height:460px;overflow-y:auto;padding:26px;display:flex;flex-direction:column;gap:18px;
+  background:linear-gradient(180deg,#fafaff,#f5f3ff 60%,#fdf2f8);
+}
+.msg{display:flex;gap:12px;max-width:86%}
+.msg .avatar{
+  width:44px;height:44px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;background:#fff;box-shadow:var(--shadow);
+}
+.msg .bubble{
+  padding:14px 20px;border-radius:18px;font-size:.98rem;white-space:pre-line;
+  box-shadow:0 4px 16px rgba(99,102,241,.08);
+}
+.msg.ai .bubble{background:#fff;border-top-left-radius:6px}
+.msg.user{align-self:flex-end;flex-direction:row-reverse}
+.msg.user .bubble{
+  background:linear-gradient(90deg,var(--primary),var(--primary-2));color:#fff;border-top-right-radius:6px;
+}
+.msg.typing .bubble{display:flex;gap:6px;align-items:center;padding:18px 22px}
+.tdot{width:8px;height:8px;border-radius:50%;background:#a5b4fc;animation:tdot 1.2s ease-in-out infinite}
+.tdot:nth-child(2){animation-delay:.2s}
+.tdot:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-6px);opacity:1}}
+.chat-chips{display:flex;gap:10px;flex-wrap:wrap;padding:14px 26px;background:#fafaff;border-top:1px solid #eef2f7}
+.chip{
+  padding:8px 18px;border-radius:999px;background:#fff;border:1.5px solid #e2e8f0;font-size:.88rem;
+  cursor:pointer;color:var(--muted);transition:.25s;
+}
+.chip:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-2px)}
+.chat-input-bar{display:flex;gap:12px;padding:18px 26px;background:#fff;border-top:1px solid #eef2f7}
+#chatInput{
+  flex:1;padding:14px 20px;border-radius:999px;border:2px solid #e2e8f0;font-size:.98rem;outline:none;
+  transition:.25s;font-family:inherit;
+}
+#chatInput:focus{border-color:var(--primary)}
+#chatSend{
+  padding:14px 30px;border-radius:999px;border:none;cursor:pointer;font-weight:800;font-size:1rem;
+  background:linear-gradient(90deg,var(--primary),var(--primary-2));color:#fff;transition:.3s;
+}
+#chatSend:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(99,102,241,.4)}
+.ai-disclaimer{
+  padding:16px 26px;font-size:.85rem;color:#94a3b8;background:#f8fafc;border-top:1px solid #eef2f7;
+}
+.ai-disclaimer b{color:var(--pink)}
+
+/* ============ 页脚 ============ */
+footer{
+  margin-top:80px;padding:70px 24px 40px;text-align:center;color:#cbd5e1;
+  background:linear-gradient(135deg,#1e1b4b,#4c1d95,#831843);
+}
+footer h3{color:#fff;font-size:1.5rem;margin-bottom:12px}
+footer .foot-line{max-width:680px;margin:0 auto 26px;opacity:.9}
+footer .hotlines{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+footer .hotlines span{background:rgba(255,255,255,.1);padding:8px 20px;border-radius:999px;font-size:.92rem}
+footer .copy{font-size:.85rem;opacity:.6}
+
+/* ============ 回到顶部 ============ */
+#backTop{
+  position:fixed;right:26px;bottom:26px;width:52px;height:52px;border-radius:50%;border:none;
+  background:linear-gradient(135deg,var(--primary),var(--pink));color:#fff;font-size:1.3rem;cursor:pointer;
+  box-shadow:var(--shadow-hover);opacity:0;pointer-events:none;transition:.35s;z-index:99;
+}
+#backTop.show{opacity:1;pointer-events:auto}
+#backTop:hover{transform:translateY(-5px) scale(1.06)}
+
+/* ============ 响应式（3 档断点） ============ */
+@media (max-width:1200px){
+  .grid-4,.stats{grid-template-columns:repeat(2,1fr)}
+  .grid-3,.flip-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:860px){
+  body{font-size:16px}
+  .grid-4,.grid-3,.grid-2,.grid-4,.stats,.flip-grid,.do-dont,.cfg-grid{grid-template-columns:1fr}
+  section{padding:70px 18px}
+  #navToggle{display:block}
+  .nav-links{
+    display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;
+    background:rgba(255,255,255,.97);padding:18px 24px;gap:14px;box-shadow:0 12px 30px rgba(0,0,0,.08);
+  }
+  .nav-links.open{display:flex}
+  .mood-btn{width:70px;height:70px;font-size:2rem}
+  .breath-circle{width:160px;height:160px}
+  .msg{max-width:96%}
+  .brain-box{flex-direction:column;padding:26px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ 背景灵动装饰 ============ -->
+<div class="bg-decor">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <span class="float-emoji" style="top:14%;left:8%;animation-delay:-1s">💜</span>
+  <span class="float-emoji" style="top:24%;right:10%;animation-delay:-3s">🌈</span>
+  <span class="float-emoji" style="top:52%;left:5%;animation-delay:-2s">⭐</span>
+  <span class="float-emoji" style="top:38%;right:16%;animation-delay:-4s">🌱</span>
+  <span class="float-emoji" style="top:70%;left:14%;animation-delay:-5s">🌙</span>
+  <span class="float-emoji" style="top:80%;right:8%;animation-delay:-2.5s">💫</span>
+</div>
+
+<!-- ============ 导航栏 ============ -->
+<nav>
+  <div class="logo" onclick="scrollTo({top:0,behavior:'smooth'})">🌈 心晴驿站</div>
+  <button id="navToggle">☰</button>
+  <div class="nav-links" id="navLinks">
+    <a href="#know">认识心理健康</a>
+    <a href="#issues">常见困扰</a>
+    <a href="#signals">情绪信号灯</a>
+    <a href="#mood">心情签到</a>
+    <a href="#toolbox">减压工具箱</a>
+    <a href="#myths">误区真相</a>
+    <a href="#quiz">情绪自测</a>
+    <a href="#friend">帮助朋友</a>
+    <a href="#help">求助热线</a>
+    <a href="#ai">AI伙伴</a>
+  </div>
+</nav>
+
+<!-- ============ Hero ============ -->
+<header>
+  <div class="hero-badge">🧠 青少年心理健康科普站 · 初二科创项目制作人：徐觉</div>
+  <h1 class="hero-title">你的心情，<br>值得被<span class="grad">温柔以待</span></h1>
+  <p class="hero-sub">
+    欢迎来到「心晴驿站」。这里有丰富的心理健康科普、随时在线的情绪工具，
+    还有一位会倾听的 AI 心理伙伴。无论今天是晴天还是雨天，你都可以在这里停留一会儿。
+  </p>
+  <div class="hero-btns">
+    <a class="btn btn-primary" href="#know">📚 开始探索</a>
+    <a class="btn btn-ghost" href="#ai">🧚 和 AI 聊聊</a>
+  </div>
+  <div class="hero-cards">
+    <div class="hero-chip">😊 心情签到</div>
+    <div class="hero-chip">🫁 呼吸练习</div>
+    <div class="hero-chip">📖 心理科普</div>
+    <div class="hero-chip">🤖 AI 倾诉</div>
+  </div>
+  <div class="scroll-hint">⌄</div>
+</header>
+
+<!-- ============ 1. 认识心理健康 ============ -->
+<section id="know">
+  <div class="reveal">
+    <span class="section-tag">第一章 · 科普</span>
+    <h2>心理健康是什么？</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">
+      心理健康并不只是"没有心理疾病"。按照世界卫生组织（WHO）的定义，心理健康是一种良好的状态：
+      在这种状态里，我们能够认识自己的能力、应对日常的学习和生活压力、与人友好相处，
+      并为集体做出贡献。简单说：<b>心理健康 = 心里有能量，能学习、能玩、能爱、能扛事。</b>
+    </p>
+  </div>
+  <div class="grid-4">
+    <div class="card reveal"><span class="icon">😊</span><h3>情绪稳定</h3><p>能感受喜怒哀乐，也能在难过、生气之后慢慢平复下来，不让情绪长期"绑架"自己。</p></div>
+    <div class="card reveal reveal-delay-1"><span class="icon">📚</span><h3>应对压力</h3><p>遇到考试、竞争、挫折时，会紧张但能调整状态，而不是一直被压力压垮。</p></div>
+    <div class="card reveal reveal-delay-2"><span class="icon">🤝</span><h3>良好关系</h3><p>能和家人、同学、朋友友好相处，既能表达自己，也能理解和接纳别人。</p></div>
+    <div class="card reveal reveal-delay-3"><span class="icon">🌱</span><h3>发挥潜能</h3><p>愿意尝试新事物、愿意学习和成长，觉得自己是有价值、有希望的人。</p></div>
+  </div>
+
+  <!-- 数据统计（滚动到这里时数字会动） -->
+  <div class="stats">
+    <div class="card stat-card reveal"><div class="stat-num" data-target="14" data-decimal="0">0%</div><div class="stat-label">全球 10~19 岁青少年中约有 14% 存在心理健康困扰（WHO）</div></div>
+    <div class="card stat-card reveal reveal-delay-1"><div class="stat-num" data-target="50" data-decimal="0">0%</div><div class="stat-label">约一半的心理健康问题始于 14 岁之前（WHO）</div></div>
+    <div class="card stat-card reveal reveal-delay-2"><div class="stat-num" data-target="75" data-decimal="0">0%</div><div class="stat-label">约四分之三的心理健康问题始于 25 岁之前（WHO）</div></div>
+    <div class="card stat-card reveal reveal-delay-3"><div class="stat-num" data-target="24.6" data-decimal="1">0%</div><div class="stat-label">我国青少年抑郁检出率为 24.6%（中科院心理所国民心理健康报告）</div></div>
+  </div>
+
+  <div class="brain-box reveal">
+    <span class="icon">🧠</span>
+    <div>
+      <h3>小科普：青春期的"大脑施工中"</h3>
+      <p>
+        你的大脑正在经历一次大改造！负责理性思考、控制冲动的<b>"前额叶"</b>要到 25 岁左右才完全成熟，
+        而负责情绪反应的<b>"杏仁核"</b>却已经很活跃。所以青春期的你情绪起伏大、容易冲动、特别在意别人的看法——
+        这<b>不是矫情，也不是脆弱</b>，而是大脑发育的正常过程。了解这一点，你就能更宽容地对待自己，也更理解同龄人。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. 常见困扰 ============ -->
+<section id="issues">
+  <div class="reveal">
+    <span class="section-tag">第二章 · 科普</span>
+    <h2>青少年常见的 8 个心理困扰</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">
+      下面这些困扰，几乎每个青春期的人都或多或少经历过。点击展开，看看它们的表现、原因和应对方法。
+      认识它们，是照顾自己的第一步。
+    </p>
+  </div>
+  <div class="accordion reveal">
+    <div class="acc-item">
+      <div class="acc-head"><span class="emoji">📖</span>学业压力与考试焦虑<span class="arrow">▼</span></div>
+      <div class="acc-body">
+        <p><b>表现：</b>考前心慌、手心出汗、睡不好；一想到考试就烦躁；成绩波动时特别沮丧，甚至害怕看分数。</p>
+        <p><b>为什么会这样：</b>中考、排名、家长的期待像三座小山。适度的压力其实能提升表现（心理学上叫"耶克斯-多德森定律"），但压力过大时，大脑会被焦虑"劫持"，反而记不住东西。</p>
+        <p><b>可以试试：</b>把大目标拆成小任务（今天只背 10 个单词）；考前做 4-7-8 呼吸（下方工具箱里有）；把"我必须考好"换成"我尽力发挥就好"；和同学组队复习互相打气。</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head"><span class="emoji">😰</span>焦虑与紧张不安<span class="arrow">▼</span></div>
+      <div class="acc-body">
+        <p><b>表现：</b>总是担心还没发生的事；心跳加快、胸闷、肚子疼但查不出问题；注意力难集中，容易坐立不安。</p>
+        <p><b>为什么会这样：</b>焦虑是身体的"报警系统"在工作，它在提醒你"有重要的事要面对"。但如果报警器太灵敏，就会对小事也拉响警报。</p>
+        <p><b>可以试试：</b>问问自己"我担心的事发生的概率有多大？最坏结果我能承受吗？"；用 5-4-3-2-1 着陆法把注意力拉回当下（见工具箱）；规律运动是天然的"抗焦虑药"。</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head"><span class="emoji">🌧</span>情绪低落与抑郁情绪<span class="arrow">▼</span></div>
+      <div class="acc-body">
+        <p><b>表现：</b>连续两周以上心情低落；对以前喜欢的事提不起兴趣；觉得累、没价值；食欲和睡眠明显变化；严重时会有自我伤害的念头。</p>
+        <p><b>为什么会这样：</b>偶尔的难过是正常的情绪波动，人人都有。但如果低落持续两周以上、影响吃饭睡觉上学，那可能不只是"心情不好"，而是心灵在发炎，需要认真对待。</p>
+        <p><b>可以试试：</b>不要责怪自己"矫情"，就像不会责怪感冒的人打喷嚏；把感受告诉信任的人；及时寻求心理老师或专业帮助。记住：<b>抑郁是病，可以治疗，求助不丢人。</b></p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head"><span class="emoji">🫂</span>友谊烦恼与孤独感<span class="arrow">▼</span></div>
+      <div class="acc-body">
+        <p><b>表现：</b>和朋友闹矛盾后反复回想"是不是我的错"；感觉被小团体排挤；在学校没有能说心里话的人，很孤独。</p>
+        <p><b>为什么会这样：</b>青春期同伴的重要性超过以往任何时期，所以友谊的小船翻了你才会那么疼。这是成长必经的路，不是你不受欢迎。</p>
+        <p><b>可以试试：</b>冲突后先冷静 24 小时再沟通，用"我觉得…（说感受）"而不是"你总是…（指责）"；友谊需要筛选，不必讨好所有人；一个人吃饭、一个人走路也可以很酷，孤独时可以来这里和 AI 聊聊。</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head"><span class="emoji">🏠</span>亲子沟通冲突<span class="arrow">▼</span></div>
+      <div class="acc-body">
+        <p><b>表现：</b>和家长说不了三句话就吵起来；觉得爸妈不理解自己、只关心成绩；被没收手机时怒气冲天。</p>
+        <p><b>为什么会这样：</b>你渴望独立、被当作大人，而爸妈的习惯还停留在"照顾小孩"模式。两代人成长环境不同，看问题的角度自然不同。</p>
+        <p><b>可以试试：</b>选双方都平静的时间谈，而不是在气头上；先说事实和感受（"这次没考好我很难过"），再提具体请求（"希望你别当着客人的面批评我"）；也给爸妈一点学习的时间——他们也是第一次当青春期孩子的父母。</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head"><span class="emoji">📱</span>手机与网络沉迷<span class="arrow">▼</span></div>
+      <div class="acc-body">
+        <p><b>表现：</b>说好只玩 10 分钟却刷到深夜；不刷手机就心痒难受；因为熬夜刷视频白天上课犯困。</p>
+        <p><b>为什么会这样：</b>短视频和游戏是很多聪明工程师专门设计来"抓住你的注意力"的，每一次下滑都有新的刺激，大脑会分泌多巴胺让你"停不下来"。所以沉迷不全是意志力的问题——你是在和一整个团队的设计对抗。</p>
+        <p><b>可以试试：</b>物理隔离最有效（写作业时手机放另一个房间）；睡前 1 小时不用手机，改看纸质书；用屏幕时间统计App 看看每天刷了多久，数据会吓你一跳；给自己安排"无聊时间"，大脑休息后会更快乐。</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head"><span class="emoji">😴</span>睡眠问题<span class="arrow">▼</span></div>
+      <div class="acc-body">
+        <p><b>表现：</b>躺下一两个小时都睡不着；半夜反复醒；早上起不来，白天昏昏沉沉。</p>
+        <p><b>为什么会这样：</b>青春期体内褪黑素分泌时间会推迟，所以你天然"晚上睡不着、早上起不来"，这不是懒。再加上作业、手机光线和白天的小压力，睡眠就更难了。而睡眠不足又会让情绪变差，形成恶性循环。</p>
+        <p><b>可以试试：</b>固定作息，周末也别差太多；睡前 1 小时远离手机屏幕；卧室保持黑暗安静；睡不着时别数羊，做几轮慢呼吸更管用；白天多晒太阳、多运动，晚上会睡得更香。</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head"><span class="emoji">🪞</span>外貌焦虑与自卑<span class="arrow">▼</span></div>
+      <div class="acc-body">
+        <p><b>表现：</b>总觉得自己太胖、太矮、皮肤不好；照镜子反复挑剔自己；看到别人晒的照片就自卑。</p>
+        <p><b>为什么会这样：</b>青春期身体正在快速变化，你已经习惯拿"大人的标准"审视自己。再加上社交媒体上的照片几乎都修过图——你是在拿自己的日常对比别人的"精修"，当然会输。</p>
+        <p><b>可以试试：</b>每天写下自己的 3 个优点（不一定是外貌）；少刷制造焦虑的内容，多关注真实多元的样子；把身体当作"工具"而不是"展品"——它能跑能跳能拥抱，就值得感谢；如果外貌焦虑严重影响吃饭和生活，要告诉大人并寻求帮助。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. 情绪信号灯 ============ -->
+<section id="signals">
+  <div class="reveal">
+    <span class="section-tag">第三章 · 科普</span>
+    <h2>情绪信号灯：什么时候该重视？</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">
+      情绪就像天气，有晴有雨很正常。但我们要学会识别"暴雨预警"。
+      下面这个信号灯，可以帮你判断自己的状态（不是给自己贴标签，而是提醒自己照顾自己）。
+    </p>
+  </div>
+  <div class="grid-3">
+    <div class="card signal signal-green reveal">
+      <h3><span class="light light-green"></span>绿灯 · 正常波动</h3>
+      <ul>
+        <li>偶尔心情不好，但睡一觉、聊聊天就好转</li>
+        <li>考试前紧张，考完就恢复</li>
+        <li>和同学有小摩擦，很快和好</li>
+        <li>学习和生活基本正常</li>
+      </ul>
+      <div class="signal-tips">☀ 放心，这就是普通人的日常心情曲线。</div>
+    </div>
+    <div class="card signal signal-yellow reveal reveal-delay-1">
+      <h3><span class="light light-yellow"></span>黄灯 · 需要注意</h3>
+      <ul>
+        <li>情绪低落或烦躁持续 1~2 周</li>
+        <li>入睡困难，或总睡不够</li>
+        <li>不想见人、不想说话</li>
+        <li>成绩明显下滑，注意力涣散</li>
+        <li>经常头痛、肚子疼但查不出原因</li>
+      </ul>
+      <div class="signal-tips">🌦 主动调节：早睡、运动、倾诉。如果 2 周后还是没好转，请向红灯求助。</div>
+    </div>
+    <div class="card signal signal-red reveal reveal-delay-2">
+      <h3><span class="light light-red"></span>红灯 · 一定要求助</h3>
+      <ul>
+        <li>持续两周以上情绪低落、对什么都提不起兴趣</li>
+        <li>出现自我伤害的念头或行为</li>
+        <li>完全无法正常上学和生活</li>
+        <li>感觉"活着没意思"</li>
+      </ul>
+      <div class="signal-tips">⛈ 请立即告诉家长、老师，或拨打下方热线。求助不是软弱，是智慧！</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. 心情签到（互动） ============ -->
+<section id="mood">
+  <div class="reveal">
+    <span class="section-tag">第四章 · 互动</span>
+    <h2>今日心情签到</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">
+      每天花 3 秒，点一个最贴近现在心情的表情。坚持记录，你会越来越了解自己的情绪规律。
+      记录保存在你自己的浏览器里（localStorage），只有你自己能看到。
+    </p>
+  </div>
+  <div class="mood-panel reveal">
+    <h3>你今天的心情是……</h3>
+    <p class="sub">连续签到 7 天，你会得到一张自己的"心情晴雨表"</p>
+    <div class="mood-btns" id="moodBtns">
+      <!-- JS 会自动生成 5 个心情按钮 -->
+    </div>
+    <div id="moodMsg">点一个最贴近你现在心情的表情吧。</div>
+    <div class="mood-week" id="moodWeek"></div>
+  </div>
+</section>
+
+<!-- ============ 5. 减压工具箱 ============ -->
+<section id="toolbox">
+  <div class="reveal">
+    <span class="section-tag">第五章 · 科普 + 互动</span>
+    <h2>减压工具箱：立刻能用的好办法</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">
+      情绪来了不用怕，方法用起来。这些都是心理学上被广泛认可、每个人都能马上上手的减压技巧。
+    </p>
+  </div>
+  <div class="grid-3">
+    <div class="card reveal"><span class="icon">🖐</span><h3>5-4-3-2-1 着陆法</h3><p>焦虑上头时，依次说出：<b>5</b> 个看到的、<b>4</b> 个听到的、<b>3</b> 个摸到的、<b>2</b> 个闻到的、<b>1</b> 个尝到的东西。注意力回到当下，焦虑就会降温。</p></div>
+    <div class="card reveal reveal-delay-1"><span class="icon">🏃</span><h3>运动出汗</h3><p>每天运动 30 分钟，大脑会分泌内啡肽和多巴胺——天然的"快乐激素"。跑步、跳绳、打球都行，出出汗，烦恼就轻了。</p></div>
+    <div class="card reveal reveal-delay-2"><span class="icon">✍</span><h3>书写表达</h3><p>把烦恼原封不动写在纸上，想多狠写多狠，写完可以撕掉或封存。研究表明，书写能帮大脑"整理"情绪，减少内耗。</p></div>
+    <div class="card reveal"><span class="icon">🎵</span><h3>音乐与白噪音</h3><p>听喜欢的歌、雨声或海浪声，能让紧绷的神经放松下来。建一个自己的"情绪急救歌单"，难过时单曲循环。</p></div>
+    <div class="card reveal reveal-delay-1"><span class="icon">🌳</span><h3>亲近自然</h3><p>去公园走一走，看看树和云。研究发现每天在自然环境中待 20 分钟，压力激素水平就会明显下降。</p></div>
+    <div class="card reveal reveal-delay-2"><span class="icon">💬</span><h3>倾诉与求助</h3><p>说出来就是治愈的开始。找信任的朋友、家人、老师聊聊；也可以在下面找 AI 伙伴说一说。别一个人扛。</p></div>
+  </div>
+
+  <!-- 呼吸练习互动 -->
+  <div class="breath-wrap reveal">
+    <h3>🫁 4-7-8 呼吸练习</h3>
+    <p class="sub">吸气 4 秒 → 屏住 7 秒 → 缓缓呼气 8 秒。做 4 轮，身体会明显放松。跟着圆球一起试试！</p>
+    <div class="breath-stage">
+      <div class="breath-circle" id="breathCircle">
+        <div id="breathNum">准备好了吗</div>
+        <div id="breathLabel">点击开始</div>
+      </div>
+      <div class="breath-btns">
+        <button class="breath-btn" id="breathBtn">▶ 开始练习</button>
+        <button class="breath-btn" id="breathReset">↺ 重置</button>
+      </div>
+      <div class="breath-round">已完成轮数：<span id="breathRound">0</span> 轮</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. 误区 vs 真相（翻转卡） ============ -->
+<section id="myths">
+  <div class="reveal">
+    <span class="section-tag">第六章 · 科普</span>
+    <h2>心理误区 vs 真相</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">这些话你是不是听过很多遍？点击卡片翻转，看看心理健康领域真正的答案。</p>
+  </div>
+  <div class="flip-grid">
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="myth">✕ 误区</div>
+          <h3>"找心理咨询的人<br>都是精神病"</h3>
+          <div class="tap">👆 点击翻转</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="fact">✓ 真相</div>
+          <p>心理咨询就像"心灵健身房"，感冒要看医生，心灵"感冒"了寻求帮助同样正常。很多健康的人也会通过咨询让自己变得更好。</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal reveal-delay-1">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="myth">✕ 误区</div>
+          <h3>"求助是软弱<br>丢脸的表现"</h3>
+          <div class="tap">👆 点击翻转</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="fact">✓ 真相</div>
+          <p>恰恰相反。敢于承认"我需要帮助"并开口求助，需要巨大的勇气和自我觉察，这是强者的行为，不是弱者的。</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal reveal-delay-2">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="myth">✕ 误区</div>
+          <h3>"难过要忍住，<br>哭是没出息"</h3>
+          <div class="tap">👆 点击翻转</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="fact">✓ 真相</div>
+          <p>哭泣是身体天然的减压阀，眼泪里含有压力激素。想哭就哭，哭完擦干眼泪继续走，比硬憋着健康得多。</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="myth">✕ 误区</div>
+          <h3>"小小年纪，<br>哪来的压力"</h3>
+          <div class="tap">👆 点击翻转</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="fact">✓ 真相</div>
+          <p>青少年面对的学业、同伴、自我认同压力并不比大人少，而且大脑还没发育完全，调节能力更弱。孩子的痛苦是真实的。</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal reveal-delay-1">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="myth">✕ 误区</div>
+          <h3>"心理问题靠<br>意志力就能扛好"</h3>
+          <div class="tap">👆 点击翻转</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="fact">✓ 真相</div>
+          <p>就像骨折不能靠意志力愈合，中度以上的心理困扰也需要专业帮助。硬扛只会让问题加重、拖长恢复时间。</p>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal reveal-delay-2">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="myth">✕ 误区</div>
+          <h3>"朋友说想不开，<br>答应他不告诉大人"</h3>
+          <div class="tap">👆 点击翻转</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="fact">✓ 真相</div>
+          <p>当朋友有伤害自己的危险时，"保密"可能带来无法挽回的后果。告诉可信任的大人不是背叛，而是真正的保护。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. 情绪自测（互动） ============ -->
+<section id="quiz">
+  <div class="reveal">
+    <span class="section-tag">第七章 · 互动</span>
+    <h2>情绪小自测（近两周）</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">
+      回答 6 个小问题，了解自己最近的情绪状态。<b>本测试参考 PHQ-4 等量表简化而成，仅供自我了解，
+      不能代替专业诊断。</b>
+    </p>
+  </div>
+  <div class="quiz-box reveal">
+    <div id="quizList"></div>
+    <div class="quiz-actions">
+      <button class="btn btn-primary" id="quizSubmit">查看结果</button>
+      <button class="btn btn-ghost" id="quizReset">重新测一次</button>
+      <span class="quiz-note">🔒 测试结果只在页面上显示，不会被上传。</span>
+    </div>
+    <div id="quizResult"></div>
+  </div>
+</section>
+
+<!-- ============ 8. 帮助朋友 ============ -->
+<section id="friend">
+  <div class="reveal">
+    <span class="section-tag">第八章 · 科普</span>
+    <h2>当朋友难过时，怎么帮 TA？</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">
+      青春期的很多心事，我们会先告诉朋友而不是大人。所以你的一句话，可能比什么都重要。
+      下面是心理学上推荐的"助人指南"。
+    </p>
+  </div>
+  <div class="do-dont">
+    <div class="card do-list reveal">
+      <h3>✅ 可以这样做</h3>
+      <ul>
+        <li><b>认真倾听</b>：找个安静的地方，让 TA 把话说完，不打断、不急着给建议。</li>
+        <li><b>认可情绪</b>：说"听起来你真的很难受""换我我也会难过"。</li>
+        <li><b>陪伴在场</b>：说"我在这里陪着你"，哪怕一起安静地走一段路也很有用。</li>
+        <li><b>鼓励求助</b>：如果 TA 难受超过两周，鼓励 TA 和心理老师或家长聊聊，可以陪着去。</li>
+        <li><b>及时上报</b>：TA 有伤害自己的念头时，立刻告诉可信任的大人。</li>
+      </ul>
+    </div>
+    <div class="card dont-list reveal reveal-delay-1">
+      <h3>❌ 不要这样做</h3>
+      <ul>
+        <li><b>别轻飘飘安慰</b>："想开点""别想太多""你太玻璃心了"——这些话会让人更孤独。</li>
+        <li><b>别急着比较</b>："比你惨的人多了"——痛苦不是比赛。</li>
+        <li><b>别嘲笑或传播</b>：TA 告诉你的心事，不是茶余饭后的谈资。</li>
+        <li><b>别强行拉人</b>：硬拽着"开心起来"反而增加压力，接纳比纠正更有力量。</li>
+        <li><b>别做危险承诺</b>：不要答应替 TA 保守"自伤"之类的秘密。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="friend-quote reveal">💛 陪伴本身就是治愈。当朋友有危险时，告诉大人不是"背叛"，而是真正的保护。</div>
+</section>
+
+<!-- ============ 9. 求助资源 ============ -->
+<section id="help">
+  <div class="reveal">
+    <span class="section-tag">第九章 · 重要</span>
+    <h2>求助资源：这些电话请记牢</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">
+      无论是自己需要帮助，还是发现朋友需要帮助，都可以拨打下面的热线。
+      它们是免费的、保密的，电话那头是受过专业训练的倾听者。
+    </p>
+  </div>
+  <div class="grid-2">
+    <div class="card hotline reveal">
+      <div class="num">12355</div>
+      <div><h3>青少年服务热线（共青团）</h3><p class="desc">心理咨询 + 法律援助，专门为青少年设立。</p></div>
+    </div>
+    <div class="card hotline reveal reveal-delay-1">
+      <div class="num">12356</div>
+      <div><h3>全国心理援助热线</h3><p class="desc">全国统一心理援助热线，24 小时守候。</p></div>
+    </div>
+    <div class="card hotline reveal reveal-delay-2">
+      <div class="num">400-161-9995</div>
+      <div><h3>希望 24 热线</h3><p class="desc">24 小时心理危机干预热线，情绪很糟时都可以打。</p></div>
+    </div>
+    <div class="card hotline reveal reveal-delay-3">
+      <div class="num">110 / 120</div>
+      <div><h3>紧急求助</h3><p class="desc">生命安全受到威胁时，立即拨打报警 / 急救电话。</p></div>
+    </div>
+  </div>
+  <div class="help-extra reveal">
+    💡 除了热线，你还可以求助：<b>学校心理老师</b>（放心，咨询内容会保密）、<b>班主任或信任的老师</b>、<b>家长或其他信任的大人</b>、
+    医院的<b>心理科 / 精神科 / 儿童青少年门诊</b>。求助不丢人，这是对自己负责的表现。
+  </div>
+</section>
+
+<!-- ============ 10. AI 心理伙伴 ============ -->
+<section id="ai">
+  <div class="reveal">
+    <span class="section-tag">第十章 · AI 功能</span>
+    <h2>AI 心理伙伴 · 心晴精灵</h2>
+    <div class="h2-bar"></div>
+    <p class="section-desc">
+      一位 24 小时在线、有耐心、不评判的倾听者。心里的话说不出口？先和它聊聊。
+      它不能替代专业心理咨询，但可以陪你梳理情绪、找到方向。
+    </p>
+  </div>
+  <div class="ai-wrap reveal">
+    <div class="ai-head">
+      <span class="avatar-big">🧚</span>
+      <div>
+        <h3>心晴精灵</h3>
+        <span class="st" id="aiStatus">当前模式：本地演示（未接入 AI）</span>
+      </div>
+      <div class="ai-head-btns">
+        <button class="ai-btn" id="cfgToggle">⚙ 接入 AI 设置</button>
+        <button class="ai-btn" id="chatClear">🗑 清空对话</button>
+      </div>
+    </div>
+
+    <!-- AI 设置面板 -->
+    <div class="ai-config" id="aiConfig">
+      <h4>🔌 接入豆包等 AI（可选）</h4>
+      <p class="hint">
+        <b>不设置也能用：</b>网站内置了"本地演示模式"，点开就能聊。<br>
+        <b>想接入真正的 AI（如豆包）：</b>① 到火山方舟（豆包 AI 开放平台）注册并开通模型服务 → ② 创建 <b>API Key</b> →
+        ③ 把 Key 填到下面保存即可。也支持其他兼容 OpenAI 格式的 AI 服务（改 API 地址即可）。<br>
+        🔒 API Key 只保存在你自己的浏览器里，不会上传到任何服务器。若保存后提示"跨域/网络错误"，是该 AI 平台不允许网页直连，可换用支持的接口或本地代理。
+      </p>
+      <div class="cfg-grid">
+        <div class="cfg-field">
+          <label>API 地址</label>
+          <input type="text" id="cfgUrl" placeholder="https://ark.cn-beijing.volces.com/api/v3">
+        </div>
+        <div class="cfg-field">
+          <label>API Key</label>
+          <input type="password" id="cfgKey" placeholder="粘贴你的 API Key">
+        </div>
+        <div class="cfg-field">
+          <label>模型 / 接入点 ID</label>
+          <input type="text" id="cfgModel" placeholder="例如 doubao-seed-1-6-250615">
+        </div>
+      </div>
+      <div class="cfg-actions">
+        <button class="btn btn-primary" id="cfgSave" style="padding:10px 28px">保存设置</button>
+        <button class="ai-btn" id="cfgClear">清除（恢复本地演示）</button>
+        <span id="cfgStatus"></span>
+      </div>
+    </div>
+
+    <!-- 聊天窗口 -->
+    <div id="chatBox"></div>
+    <div class="chat-chips">
+      <button class="chip" data-q="最近考试压力好大，总是很紧张怎么办">📖 考试压力大</button>
+      <button class="chip" data-q="我经常失眠睡不着，怎么改善？">😴 失眠睡不着</button>
+      <button class="chip" data-q="我和好朋友闹矛盾了，心里很难受">🫂 和朋友闹矛盾</button>
+      <button class="chip" data-q="爸妈总是不理解我，说不了几句就吵">🏠 和爸妈吵架</button>
+      <button class="chip" data-q="最近心情一直很低落，对什么都提不起兴趣">🌧 心情低落</button>
+    </div>
+    <div class="chat-input-bar">
+      <input type="text" id="chatInput" placeholder="写下你想说的话，心晴精灵在听……（回车发送）" maxlength="500">
+      <button id="chatSend">发送 ➤</button>
+    </div>
+    <div class="ai-disclaimer">
+      ⚠️ 温馨提示：心晴精灵是 AI 陪伴工具，<b>不能替代专业的心理咨询和医疗诊断</b>。
+      如果你正处于严重困扰或有伤害自己的念头，请立即拨打热线 <b>12356 / 12355 / 400-161-9995</b> 或告诉信任的大人。
+    </div>
+  </div>
+</section>
+
+<!-- ============ 页脚 ============ -->
+<footer>
+  <h3>🌈 心晴驿站</h3>
+  <p class="foot-line">本站是一名初二学生徐觉的科创项目作品，聚焦青少年心理健康科普。愿你在这里被理解、被治愈，也把这份温柔传递给身边的人。</p>
+  <div class="hotlines">
+    <span>📞 12355 青少年热线</span>
+    <span>📞 12356 心理援助</span>
+    <span>📞 400-161-9995 希望24热线</span>
+    <span>🚨 紧急情况 110 / 120</span>
+  </div>
+  <p class="copy">⚠️ 本站内容仅作科普用途，不能替代专业医疗建议 · 心情记录与设置仅保存在你的浏览器本地<br>© 2026 心晴驿站 · 用技术守护每一颗少年心   制作人：徐觉   来自厦门海沧一中校区初二9班</p>
+</footer>
+
+<button id="backTop" title="回到顶部">↑</button>
+
+<script>
+/* ================================================================
+   心晴驿站 · 交互脚本
+   包含：导航、滚动动效、数字动画、心情签到、呼吸练习、
+        情绪自测、AI 问答（支持接入豆包等 AI + 本地演示模式）
+================================================================ */
+var $ = function(s, p){ return (p||document).querySelector(s); };
+var $$ = function(s, p){ return Array.prototype.slice.call((p||document).querySelectorAll(s)); };
+
+/* ============ 移动端导航 ============ */
+$('#navToggle').addEventListener('click', function(){
+  $('#navLinks').classList.toggle('open');
+});
+$$('.nav-links a').forEach(function(a){
+  a.addEventListener('click', function(){ $('#navLinks').classList.remove('open'); });
+});
+
+/* ============ 滚动显现动画 ============ */
+var revealObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, {threshold:.12});
+$$('.reveal').forEach(function(el){ revealObs.observe(el); });
+
+/* ============ 数字动画（统计卡片） ============ */
+function animateCounter(el){
+  var target = parseFloat(el.dataset.target);
+  var dec = parseInt(el.dataset.decimal || 0, 10);
+  var dur = 1600, start = performance.now();
+  function tick(now){
+    var p = Math.min((now - start) / dur, 1);
+    var eased = 1 - Math.pow(1 - p, 3);           // 缓出曲线
+    el.textContent = (target * eased).toFixed(dec);
+    if(p < 1) requestAnimationFrame(tick);
+    else el.textContent = target.toFixed(dec);
+  }
+  requestAnimationFrame(tick);
+}
+var counterObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      animateCounter(e.target);
+      counterObs.unobserve(e.target);
+    }
+  });
+}, {threshold:.4});
+$$('.stat-num').forEach(function(el){ counterObs.observe(el); });
+
+/* ============ 常见困扰手风琴 ============ */
+$$('.acc-head').forEach(function(h){
+  h.addEventListener('click', function(){
+    h.parentElement.classList.toggle('open');
+  });
+});
+
+/* ============ 误区翻转卡 ============ */
+$$('.flip-card').forEach(function(c){
+  c.addEventListener('click', function(){ c.classList.toggle('flipped'); });
+});
+
+/* ============ 心情签到（localStorage 持久化） ============ */
+var MOODS = [
+  {e:'😄', t:'超棒', msg:'把今天的快乐存起来，心情低落的时候拿出来用！'},
+  {e:'🙂', t:'不错', msg:'稳定的好心情，是最珍贵的超能力。'},
+  {e:'😐', t:'一般', msg:'平平淡淡也是一种好状态，给自己泡杯热牛奶吧。'},
+  {e:'😢', t:'难过', msg:'难过是心灵在提醒你：该休息一下、抱抱自己了。'},
+  {e:'😫', t:'烦躁', msg:'先深呼吸三次，再决定要不要继续烦。'}
+];
+var MOOD_KEY = 'xq_mood_records';
+function loadMoods(){
+  try{ return JSON.parse(localStorage.getItem(MOOD_KEY)) || []; }
+  catch(e){ return []; }
+}
+function saveMoods(arr){
+  try{ localStorage.setItem(MOOD_KEY, JSON.stringify(arr.slice(-90))); }catch(e){}
+}
+function fmtDate(d){
+  return d.getFullYear() + '-' +
+    String(d.getMonth()+1).padStart(2,'0') + '-' +
+    String(d.getDate()).padStart(2,'0');
+}
+function renderMood(){
+  var moods = loadMoods();
+  var today = fmtDate(new Date());
+  var todayRec = null;
+  moods.forEach(function(m){ if(m.d === today) todayRec = m; });
+
+  $$('.mood-btn').forEach(function(b, i){
+    b.classList.toggle('active', !!todayRec && todayRec.m === i);
+  });
+  var box = $('#moodMsg');
+  if(todayRec){
+    box.textContent = MOODS[todayRec.m].e + ' ' + MOODS[todayRec.m].msg;
+  }else{
+    box.textContent = '点一个最贴近你现在心情的表情吧，记录只保存在你自己的浏览器里。';
+  }
+  /* 最近 7 天晴雨表 */
+  var strip = $('#moodWeek');
+  strip.innerHTML = '';
+  for(var i = 6; i >= 0; i--){
+    var d = new Date(); d.setDate(d.getDate() - i);
+    var rec = null;
+    (function(day){
+      var key = fmtDate(day);
+      moods.forEach(function(m){ if(m.d === key) rec = m; });
+    })(d);
+    var cell = document.createElement('div');
+    cell.className = 'mood-cell' + (i === 0 ? ' today' : '');
+    cell.innerHTML =
+      '<span class="mood-face">' + (rec ? MOODS[rec.m].e : '○') + '</span>' +
+      '<span class="mood-day">' + (d.getMonth()+1) + '/' + d.getDate() + '</span>';
+    strip.appendChild(cell);
+  }
+}
+/* 生成心情按钮 */
+(function(){
+  var wrap = $('#moodBtns');
+  MOODS.forEach(function(m, i){
+    var b = document.createElement('button');
+    b.className = 'mood-btn';
+    b.innerHTML = '<span>' + m.e + '</span><small>' + m.t + '</small>';
+    b.addEventListener('click', function(){
+      var moods = loadMoods();
+      var today = fmtDate(new Date());
+      var idx = -1;
+      moods.forEach(function(m2, j){ if(m2.d === today) idx = j; });
+      if(idx > -1) moods[idx].m = i;
+      else moods.push({d: today, m: i});
+      saveMoods(moods);
+      renderMood();
+      b.classList.add('pop');
+      setTimeout(function(){ b.classList.remove('pop'); }, 420);
+    });
+    wrap.appendChild(b);
+  });
+})();
+renderMood();
+
+/* ============ 4-7-8 呼吸练习 ============ */
+var phases = [
+  {name:'吸气……', dur:4000, cls:'grow'},
+  {name:'屏住……', dur:7000, cls:'hold'},
+  {name:'缓缓呼气……', dur:8000, cls:'shrink'}
+];
+var bRunning = false, bPhase = 0, bTimer = null;
+var bCircle = $('#breathCircle'), bLabel = $('#breathLabel'),
+    bNum = $('#breathNum'), bRound = $('#breathRound');
+
+function setPhase(i){
+  bPhase = i;
+  var p = phases[i];
+  bLabel.textContent = p.name;
+  bCircle.className = 'breath-circle ' + p.cls;
+  var end = Date.now() + p.dur;
+  bNum.textContent = Math.ceil(p.dur / 1000);
+  clearInterval(bTimer);
+  bTimer = setInterval(function(){
+    var left = Math.ceil((end - Date.now()) / 1000);
+    bNum.textContent = Math.max(left, 0);
+    if(Date.now() >= end){
+      clearInterval(bTimer);
+      nextPhase();
+    }
+  }, 120);
+}
+function nextPhase(){
+  if(!bRunning) return;
+  var ni = (bPhase + 1) % 3;
+  if(ni === 0) bRound.textContent = parseInt(bRound.textContent, 10) + 1;  // 完成一轮
+  setPhase(ni);
+}
+function breathStop(){
+  clearInterval(bTimer);
+  bCircle.className = 'breath-circle';
+  bLabel.textContent = '点击开始';
+  bNum.textContent = '准备好了吗';
+}
+$('#breathBtn').addEventListener('click', function(){
+  bRunning = !bRunning;
+  var btn = $('#breathBtn');
+  if(bRunning){ btn.textContent = '⏸ 暂停'; setPhase(0); }
+  else{ btn.textContent = '▶ 继续练习'; clearInterval(bTimer); }
+});
+$('#breathReset').addEventListener('click', function(){
+  bRunning = false;
+  breathStop();
+  bRound.textContent = '0';
+  $('#breathBtn').textContent = '▶ 开始练习';
+});
+
+/* ============ 情绪自测 ============ */
+var quizQuestions = [
+  '最近两周，我经常感到情绪低落、沮丧或绝望。',
+  '我对以前喜欢的事情提不起兴趣。',
+  '我经常感到紧张、担心或坐立不安。',
+  '我入睡困难，或睡眠质量很差。',
+  '我经常感到疲惫、没有精神。',
+  '我觉得自己没什么价值，或经常自责。'
+];
+var quizOptions = [
+  {t:'从不', v:0}, {t:'偶尔', v:1}, {t:'经常', v:2}, {t:'总是', v:3}
+];
+var quizAns = new Array(quizQuestions.length).fill(null);
+
+(function renderQuiz(){
+  var list = $('#quizList');
+  quizQuestions.forEach(function(q, qi){
+    var item = document.createElement('div');
+    item.className = 'quiz-item';
+    var qt = document.createElement('div');
+    qt.className = 'quiz-q';
+    qt.textContent = (qi + 1) + '. ' + q;
+    item.appendChild(qt);
+    var opts = document.createElement('div');
+    opts.className = 'quiz-opts';
+    quizOptions.forEach(function(op, oi){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-opt';
+      btn.textContent = op.t;
+      btn.addEventListener('click', function(){
+        quizAns[qi] = op.v;
+        $$('.quiz-opt', opts).forEach(function(b2){ b2.classList.remove('sel'); });
+        btn.classList.add('sel');
+      });
+      opts.appendChild(btn);
+    });
+    item.appendChild(opts);
+    list.appendChild(item);
+  });
+})();
+
+$('#quizSubmit').addEventListener('click', function(){
+  if(quizAns.some(function(a){ return a === null; })){
+    alert('还有题目没有作答哦，请回答全部 6 题再查看结果。');
+    return;
+  }
+  var score = quizAns.reduce(function(s, a){ return s + a; }, 0);
+  var box = $('#quizResult');
+  var title, text, bg;
+  if(score <= 3){
+    bg = 'linear-gradient(120deg,#ecfdf5,#d1fae5)'; title = '☀ 心情晴朗（' + score + ' 分）';
+    text = '你最近的状态很不错！继续保持规律作息和运动，也记得把这份好心情分享给身边的人。';
+  }else if(score <= 8){
+    bg = 'linear-gradient(120deg,#fffbeb,#fef3c7)'; title = '🌦 心有小雨（' + score + ' 分）';
+    text = '你可能有一些小烦恼。试试工具箱里的呼吸练习和书写表达，多和朋友、家人聊聊，早点睡觉。照顾好自己，雨会停的。';
+  }else if(score <= 12){
+    bg = 'linear-gradient(120deg,#eff6ff,#dbeafe)'; title = '🌧 情绪预警（' + score + ' 分）';
+    text = '你最近可能承受了不少压力。别一个人扛：找一个信任的人聊聊你的感受，也可以去学校找心理老师谈一谈。求助是勇敢的表现。';
+  }else{
+    bg = 'linear-gradient(120deg,#fef2f2,#fee2e2)'; title = '⛈ 需要重视（' + score + ' 分）';
+    text = '你的情绪状态需要认真对待了。请尽快告诉家长或老师你的感受，并寻求学校心理老师或专业机构的帮助。你不是一个人，热线 12356 / 12355 随时可以拨打。';
+  }
+  box.style.background = bg;
+  box.innerHTML = '<h3>' + title + '</h3><p>' + text + '</p>' +
+    '<p style="margin-top:10px;font-size:.85rem;color:#94a3b8">* 本测试仅供自我了解，不构成任何诊断。测试结果只显示在你的页面上，不会被保存或上传。</p>';
+  box.style.display = 'block';
+  box.scrollIntoView({behavior:'smooth', block:'center'});
+});
+$('#quizReset').addEventListener('click', function(){
+  quizAns = new Array(quizQuestions.length).fill(null);
+  $$('.quiz-opt').forEach(function(b){ b.classList.remove('sel'); });
+  $('#quizResult').style.display = 'none';
+});
+
+/* ============ 回到顶部 ============ */
+window.addEventListener('scroll', function(){
+  $('#backTop').classList.toggle('show', window.scrollY > 600);
+});
+$('#backTop').addEventListener('click', function(){
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+/* ================================================================
+   AI 问答模块
+   1) 本地演示模式：不配置 API 也能聊（内置智能回复规则）
+   2) 在线模式：兼容 OpenAI 格式的接口（豆包 / 火山方舟、GLM、
+      DeepSeek、Kimi 等），在"AI 设置"里填 Key 即可
+================================================================ */
+var CFG_KEY = 'xq_ai_config';
+var SYSTEM_PROMPT =
+  '你是"心晴精灵"，一个面向中国青少年（12~16岁）的心理健康陪伴助手。' +
+  '要求：1) 温暖、真诚地倾听，先共情再建议，不说教、不评判；' +
+  '2) 用简洁友好的语气回答，给出具体可操作的小方法；' +
+  '3) 涉及严重心理困扰时，建议求助学校心理老师、家长或专业机构；' +
+  '4) 如果用户提到自伤、自杀或伤害他人的想法，请温和而坚定地劝导，' +
+  '并立即建议拨打心理援助热线 12356、12355 或 400-161-9995，同时告诉信任的大人；' +
+  '5) 每次回复控制在 200 字以内；6) 不做医疗诊断。';
+
+function getCfg(){
+  try{ return JSON.parse(localStorage.getItem(CFG_KEY)) || {}; }
+  catch(e){ return {}; }
+}
+function updateAiStatus(){
+  var cfg = getCfg();
+  $('#aiStatus').textContent = cfg.apiKey
+    ? '当前模式：已接入 AI（' + (cfg.model || '自定义模型') + '）'
+    : '当前模式：本地演示（未接入 AI）';
+}
+
+/* --- 设置面板 --- */
+$('#cfgToggle').addEventListener('click', function(){
+  var cfg = getCfg();
+  $('#cfgUrl').value = cfg.baseUrl || 'https://ark.cn-beijing.volces.com/api/v3';
+  $('#cfgKey').value = cfg.apiKey || '';
+  $('#cfgModel').value = cfg.model || 'doubao-seed-1-6-250615';
+  $('#aiConfig').classList.toggle('open');
+});
+$('#cfgSave').addEventListener('click', function(){
+  var cfg = {
+    baseUrl: $('#cfgUrl').value.trim() || 'https://ark.cn-beijing.volces.com/api/v3',
+    apiKey: $('#cfgKey').value.trim(),
+    model: $('#cfgModel').value.trim() || 'doubao-seed-1-6-250615'
+  };
+  try{ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }catch(e){}
+  $('#cfgStatus').textContent = '✓ 已保存，刷新对话后生效';
+  setTimeout(function(){ $('#cfgStatus').textContent = ''; }, 3000);
+  updateAiStatus();
+});
+$('#cfgClear').addEventListener('click', function(){
+  localStorage.removeItem(CFG_KEY);
+  $('#cfgKey').value = '';
+  $('#cfgStatus').textContent = '已清除，恢复本地演示模式';
+  setTimeout(function(){ $('#cfgStatus').textContent = ''; }, 3000);
+  updateAiStatus();
+});
+
+/* --- 聊天窗口基础 --- */
+var chatBox = $('#chatBox'), chatInput = $('#chatInput');
+var chatHistory = [];   // {role:'user'|'assistant', content}
+function chatAdd(role, text){
+  var wrap = document.createElement('div');
+  wrap.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
+  var av = document.createElement('div');
+  av.className = 'avatar';
+  av.textContent = role === 'user' ? '🧑‍🎓' : '🧚';
+  var bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+  wrap.appendChild(av); wrap.appendChild(bubble);
+  chatBox.appendChild(wrap);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+function chatTyping(on){
+  var t = $('#typingMsg');
+  if(on && !t){
+    var wrap = document.createElement('div');
+    wrap.className = 'msg ai typing'; wrap.id = 'typingMsg';
+    wrap.innerHTML = '<div class="avatar">🧚</div><div class="bubble"><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></div>';
+    chatBox.appendChild(wrap);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }else if(!on && t){ t.remove(); }
+}
+function chatWelcome(){
+  chatBox.innerHTML = '';
+  chatAdd('ai',
+    '你好呀，我是心晴精灵 🧚\n' +
+    '不管今天是开心还是难过，都可以和我说说。\n' +
+    '我会认真听，不评判、不着急。\n\n' +
+    '⚠️ 小提醒：我是 AI 伙伴，不能替代专业心理咨询。' +
+    '如果你正处于很大的痛苦中，请拨打 12356 / 12355 或告诉信任的大人。');
+  chatHistory = [];
+}
+$('#chatClear').addEventListener('click', chatWelcome);
+
+/* --- 本地演示模式：关键词智能回复 --- */
+var OFFLINE_RULES = [
+  {keys:['自杀','自残','自伤','不想活','轻生','伤害自己','活着没意思'],
+   reply:'听到你说这些，我很心疼，也很感谢你愿意告诉我。\n\n你现在的痛苦是真实的，但请相信：这种感受是可以被帮助、被改变的。请你现在就做这三件事：\n1. 拨打全国心理援助热线 12356（24小时免费）\n2. 或拨打青少年热线 12355\n3. 把感受告诉一位你信任的大人（父母、老师都可以）\n\n你并不孤单，请一定让自己被大人保护起来。我会一直在这里陪着你。'},
+  {keys:['压力','考试','考砸','复习','中考','排名','成绩'],
+   reply:'听起来最近的压力像小山一样压着你，真的很不容易。\n\n分享几个立刻能用的方法：\n1. 把大目标拆成今天能完成的小任务，完成一个划掉一个；\n2. 考前紧张时做几轮 4-7-8 呼吸（页面工具箱里就有）；\n3. 把"我必须考好"换成"我尽力发挥就好"。\n\n适度的压力其实是动力，你已经很努力了，别忘了给自己一点掌声。'},
+  {keys:['失眠','睡不着','睡眠','熬夜','早起'],
+   reply:'睡不好真的会让整个人都蔫蔫的，抱抱你。\n\n几个改善睡眠的小方法：\n1. 睡前 1 小时把手机放到房间外，屏幕光会偷走你的睡意；\n2. 躺下后做几轮慢呼吸：吸气 4 秒、屏住 7 秒、呼气 8 秒；\n3. 白天多晒太阳、多运动，晚上会睡得更沉。\n\n如果长期失眠超过两周，建议告诉家长并寻求医生帮助哦。'},
+  {keys:['难过','伤心','低落','沮丧','想哭','哭','emo','抑郁'],
+   reply:'谢谢你愿意说出这些，难过的时候能表达出来，本身就是一种勇敢。\n\n想跟你说：情绪像天气，暴雨不会永远下。你可以试试：\n1. 把心里的感受写在纸上，写完撕掉；\n2. 听一首能安放情绪的歌，或者出门走走晒晒太阳；\n3. 找一个信任的人说说，别一个人扛。\n\n如果低落已经持续两周以上，请一定告诉大人或心理老师，让专业的人帮你一起扛。'},
+  {keys:['朋友','同学','吵架','矛盾','孤立','排挤','孤独','没有朋友'],
+   reply:'和朋友之间的疙瘩，有时比考试还让人难受，我懂。\n\n可以试试这样：\n1. 冲突后先冷静 24 小时，再开口沟通；\n2. 用"我觉得…（说感受）"开头，而不是"你总是…（指责）"；\n3. 真正的朋友不需要讨好，合拍的人会靠近你。\n\n一个人的时光也可以很充实，而你随时可以来这里找我聊聊。'},
+  {keys:['爸妈','父母','家长','妈妈','爸爸','吵架','不理解','唠叨'],
+   reply:'和爸妈说不到三句话就"着火"，这种委屈真的很憋闷。\n\n几个小建议：\n1. 挑双方都平静的时间谈，别在气头上硬碰硬；\n2. 先说事实和感受："这次没考好，我自己也很难过"，再提具体请求；\n3. 他们也是第一次当青春期孩子的父母，给彼此一点学习的时间。\n\n你的感受值得被认真对待，慢慢来。'},
+  {keys:['手机','游戏','沉迷','刷','短视频','停不下来'],
+   reply:'刷手机停不下来，真的不全是你的错——那是很多工程师专门设计出来"抓住注意力"的。\n\n几个好用的小办法：\n1. 写作业时把手机放到另一个房间，物理隔离最有效；\n2. 睡前 1 小时不用手机，改看纸质书；\n3. 查查屏幕使用时间统计，看到数据你会吓一跳。\n\n夺回注意力，就是把时间还给真实的自己。'},
+  {keys:['自卑','外貌','胖','丑','长得','不好看','身材'],
+   reply:'照镜子时反复挑剔自己，这种感觉真的很难受，抱抱你。\n\n想告诉你几个事实：\n1. 社交媒体的照片几乎都修过图，你是在拿日常对比别人的"精修"，当然会输；\n2. 青春期的身体还在变化，现在下结论太早啦；\n3. 试着每天写下自己的 3 个优点——不一定和外貌有关。\n\n你的价值从来不取决于镜子里的样子。'},
+  {keys:['生气','愤怒','烦躁','烦','暴躁','火大'],
+   reply:'怒火烧起来的时候，整个人都像高压锅，这种感觉太真实了。\n\n教你几个"降压阀"：\n1. 先离开现场，给自己 90 秒——情绪的浪潮最多 90 秒就会退潮；\n2. 做几轮深呼吸，或者去跑两圈、打个枕头；\n3. 等平静了再决定要不要说话。\n\n生气不是坏事，它是内心在提醒你"有些事需要被处理"。'},
+  {keys:['你好','嗨','哈喽','hi','hello','在吗'],
+   reply:'你好呀，我是心晴精灵 🧚\n很高兴见到你！今天过得怎么样？\n\n无论是开心的事想分享，还是心里堵着话想说，我都在认真听。'}
+];
+function offlineReply(text){
+  var lower = text.toLowerCase();
+  for(var i = 0; i < OFFLINE_RULES.length; i++){
+    var r = OFFLINE_RULES[i];
+    for(var j = 0; j < r.keys.length; j++){
+      if(lower.indexOf(r.keys[j]) !== -1) return r.reply;
+    }
+  }
+  return '谢谢你愿意和我说这些 🧚\n\n我在认真听。你可以再多说一点吗？比如：\n· 这件事是什么时候开始的？\n· 它让你最难受的是哪一部分？\n· 你身边有可以倾诉的人吗？\n\n把感受说出来，就是照顾自己的第一步。\n（小提示：在"AI 设置"里填入豆包等 AI 的 API Key，我可以变得更聪明哦～）';
+}
+
+/* --- 在线模式：调用兼容 OpenAI 格式的接口 --- */
+function callAI(cfg, text){
+  var url = cfg.baseUrl.replace(/\/+$/, '') + '/chat/completions';
+  var messages = [{role:'system', content:SYSTEM_PROMPT}]
+    .concat(chatHistory.slice(-10))
+    .concat([{role:'user', content:text}]);
+  return fetch(url, {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer ' + cfg.apiKey
+    },
+    body: JSON.stringify({
+      model: cfg.model,
+      messages: messages,
+      temperature: 0.7
+    })
+  }).then(function(res){
+    if(!res.ok){ throw new Error('HTTP ' + res.status); }
+    return res.json();
+  }).then(function(data){
+    var c = data && data.choices && data.choices[0] &&
+            data.choices[0].message && data.choices[0].message.content;
+    if(!c) throw new Error('返回数据格式异常');
+    return c;
+  });
+}
+
+/* --- 发送消息 --- */
+var sending = false;
+function sendMsg(){
+  var text = chatInput.value.trim();
+  if(!text || sending) return;
+  chatInput.value = '';
+  chatAdd('user', text);
+  chatHistory.push({role:'user', content:text});
+  sending = true;
+  chatTyping(true);
+
+  var cfg = getCfg();
+  function finish(reply){
+    chatTyping(false);
+    chatAdd('ai', reply);
+    chatHistory.push({role:'assistant', content:reply});
+    sending = false;
+  }
+  function failToDemo(err){
+    chatTyping(false);
+    chatAdd('ai', '⚠ 连接 AI 失败（' + err.message + '）\n\n请检查"AI 设置"里的地址和密钥，' +
+      '或该平台可能不允许网页直连（跨域限制）。先用本地演示模式陪你聊聊：\n\n' + offlineReply(text));
+    sending = false;
+  }
+  if(cfg.apiKey){
+    callAI(cfg, text).then(finish).catch(function(err){
+      failToDemo(err);
+      chatHistory.push({role:'assistant', content:'（连接失败，已切换本地演示回复）'});
+    });
+  }else{
+    setTimeout(function(){
+      finish(offlineReply(text));
+    }, 600 + Math.random() * 700);
+  }
+}
+$('#chatSend').addEventListener('click', sendMsg);
+chatInput.addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){ e.preventDefault(); sendMsg(); }
+});
+$$('.chip').forEach(function(c){
+  c.addEventListener('click', function(){
+    chatInput.value = c.dataset.q;
+    sendMsg();
+  });
+});
+
+/* ============ 初始化 ============ */
+chatWelcome();
+updateAiStatus();
+</script>
+</body>
+</html>
